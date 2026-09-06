@@ -1,0 +1,38 @@
+# ── Speech-to-Text (Local Whisper) ───────────────────────────────────────────
+openai-whisper
+torch
+torchaudio
+pydub
+ffmpeg
+
+# ── Translation (Hindi → English) ────────────────────────────────────────────
+deep-translator
+
+# ── LLM Orchestration — LangChain + Mistral ──────────────────────────────────
+langchain
+langchain-core
+langchain-community
+langchain-mistralai
+mistralai
+
+# ── RAG Pipeline ─────────────────────────────────────────────────────────────
+chromadb
+sentence-transformers
+langchain-huggingface
+huggingface-hub
+tiktoken
+
+# ── FastAPI Backend ──────────────────────────────────────────────────────────
+fastapi
+uvicorn
+python-multipart
+
+# ── PDF & TXT Export ─────────────────────────────────────────────────────────
+reportlab
+fpdf2
+
+# ── Utilities ────────────────────────────────────────────────────────────────
+python-dotenv
+numpy
+tqdm
+requests
