@@ -8,6 +8,9 @@ ffmpeg
 # ── Translation (Hindi → English) ────────────────────────────────────────────
 deep-translator
 
+# ── Calls to report  ────────────────────────────────────────────
+twilio
+
 # ── LLM Orchestration — LangChain + Mistral ──────────────────────────────────
 langchain
 langchain-core

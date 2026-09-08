@@ -1,8 +1,12 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from Utils.Voice_Processor import process_input
-from Utils.transcriber import transcribe_all
+from Models.Voice_Call_Model import CallRequest
+from fastapi.responses import Response
+from xml.sax.saxutils import escape
 
+from Utils.Transcriber import transcribe_all
+from Utils.Voice_Calls import make_call
+from Utils.Voice_Processor import process_input
 
 app = FastAPI(title="AI Virtual Supervisor API")
 
@@ -10,7 +14,7 @@ app = FastAPI(title="AI Virtual Supervisor API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173",
+        "*",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -33,3 +37,28 @@ async def transcribe(file: UploadFile = File(...)):
     return {
         "data": transcript  
     }
+
+@app.post("/call")
+def call_technician(request: CallRequest):
+
+    result = make_call(
+        message=request.message,
+        to_phone_number=request.to_phone_number
+    )
+
+    return result
+
+@app.post("/twiml")
+def twiml(message: str):
+    safe_message = escape(message)
+
+    twiml_response = f"""
+    <Response>
+        <Say>{safe_message}</Say>
+    </Response>
+    """
+
+    return Response(
+        content=twiml_response,
+        media_type="application/xml"
+    )

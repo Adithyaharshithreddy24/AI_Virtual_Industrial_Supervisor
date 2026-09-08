@@ -5,13 +5,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-SARVAM_PIECE_SECONDS = 25
+SARVAM_PIECE_SECONDS = int(os.getenv("SARVAM_PIECE_SECONDS", 25))
 
 SARVAM_API_KEY = os.getenv("SARVAM_API_KEY")
 
-SARVAM_STT_TRANSLATE_URL = (
-    "https://api.sarvam.ai/speech-to-text-translate"
-)
+SARVAM_STT_TRANSLATE_URL = os.getenv("SARVAM_STT_TRANSLATE_URL", "https://api.sarvam.ai/speech-to-text-translate")
 
 SARVAM_MODEL = os.getenv(
     "SARVAM_STT_MODEL",
