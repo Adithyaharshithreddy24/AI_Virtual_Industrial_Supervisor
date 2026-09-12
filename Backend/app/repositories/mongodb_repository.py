@@ -245,6 +245,7 @@ def get_issue(
 def list_issues(
     status: str | None = None,
     worker_reported_id: str | None = None,
+    technician_id: str | None = None,
 ) -> list[dict[str, Any]]:
 
     query = {}
@@ -256,6 +257,9 @@ def list_issues(
         query["worker_reported_id"] = _id(
             worker_reported_id
         )
+
+    if technician_id:
+        query["technician_id"] = _id(technician_id)
 
     return list(
         get_database()

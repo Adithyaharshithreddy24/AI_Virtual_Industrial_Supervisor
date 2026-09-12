@@ -5,6 +5,7 @@ import {
 import Login from "./pages/Login";
 import WorkerDashboard from "./pages/WorkerDashboard";
 import ManagerDashboard from "./pages/ManagerDashboard";
+import TechnicianDashboard from "./pages/TechnicianDashboard";
 
 
 function getStoredUser() {
@@ -109,6 +110,15 @@ export default function App() {
                 onLogout={
                     handleLogout
                 }
+            />
+        );
+    }
+
+    if (user.role === "technician") {
+        return (
+            <TechnicianDashboard
+                user={user}
+                onLogout={handleLogout}
             />
         );
     }

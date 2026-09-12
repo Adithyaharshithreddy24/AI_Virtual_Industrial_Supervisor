@@ -243,6 +243,16 @@ export const api = {
         ),
 
 
+    technicianDashboard: (
+        technicianId
+    ) =>
+        request(
+            `/api/v1/issues?technician_id=${encodeURIComponent(
+                technicianId
+            )}`
+        ),
+
+
     createIssue: (
         issue
     ) =>
@@ -259,10 +269,17 @@ export const api = {
 
     updateIssue: (
         issueId,
-        update
+        update,
+        technicianId = null
     ) =>
         request(
-            `/api/v1/issues/${issueId}`,
+            `/api/v1/issues/${issueId}${
+                technicianId
+                    ? `?technician_id=${encodeURIComponent(
+                        technicianId
+                    )}`
+                    : ""
+            }`,
             {
                 method: "PATCH",
                 body: JSON.stringify(

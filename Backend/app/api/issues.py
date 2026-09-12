@@ -95,12 +95,14 @@ def add_issue(
 def get_issues(
     status: str | None = None,
     worker_id: str | None = None,
+    technician_id: str | None = None,
 ):
 
     try:
         issues = list_issues(
             status,
             worker_reported_id=worker_id,
+            technician_id=technician_id,
         )
     except ValueError as exc:
         raise HTTPException(
@@ -141,9 +143,25 @@ def get_issue_by_id(
 def modify_issue(
     issue_id: str,
     request: IssueUpdate,
+    technician_id: str | None = None,
 ):
 
     try:
+        existing_issue = get_issue(issue_id)
+
+        if not existing_issue:
+            raise HTTPException(
+                status_code=404,
+                detail="Issue not found",
+            )
+
+        if technician_id and str(
+            existing_issue.get("technician_id")
+        ) != technician_id:
+            raise HTTPException(
+                status_code=403,
+                detail="Issue is not assigned to this technician",
+            )
 
         issue = update_issue(
             issue_id,
