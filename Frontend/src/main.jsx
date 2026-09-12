@@ -1,12 +1,6 @@
-import { StrictMode } from 'react'
+import React from 'react'
 import { createRoot } from 'react-dom/client'
+import App from './App'
+import './styles/app.css'
 
-import VoiceRecorder from './Components/Voice.jsx'
-import Calls from './Components/Calls.jsx'
-
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <VoiceRecorder />
-    <Calls />
-  </StrictMode>,
-)
+createRoot(document.getElementById('root')).render(<React.StrictMode><App /></React.StrictMode>)

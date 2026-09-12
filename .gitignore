@@ -25,6 +25,9 @@ Backend/audio_files/
 *.m4a
 *.ogg
 
+# Large/proprietary manuals accidentally placed at repository root
+/*.pdf
+
 # Python tooling
 .pytest_cache/
 .mypy_cache/
