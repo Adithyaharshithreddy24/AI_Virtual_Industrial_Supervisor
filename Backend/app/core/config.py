@@ -32,6 +32,7 @@ class Settings(BaseSettings):
     # ---------------------------------------------------------
 
     google_api_key: str = ""
+    mistral_api_key: str = ""
 
     llm_provider: str = "gemini"
 

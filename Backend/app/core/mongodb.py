@@ -1,9 +1,13 @@
+import logging
 from functools import lru_cache
 
 from pymongo import MongoClient
 from pymongo.database import Database
+from pymongo.errors import PyMongoError
 
 from app.core.config import get_settings
+
+logger = logging.getLogger(__name__)
 
 
 @lru_cache(maxsize=1)
@@ -34,48 +38,61 @@ def close_mongo_connection() -> None:
 
 
 def create_indexes() -> None:
-    db = get_database()
+    try:
+        db = get_database()
+    except (RuntimeError, PyMongoError) as exc:
+        logger.warning(
+            "MongoDB is unavailable during startup; skipping index creation: %s",
+            exc,
+        )
+        return
 
-    # Workers
-    db.workers.create_index(
-        "username",
-        unique=True,
-    )
+    try:
+        # Workers
+        db.workers.create_index(
+            "username",
+            unique=True,
+        )
 
-    db.workers.create_index(
-        "role",
-    )
+        db.workers.create_index(
+            "role",
+        )
 
-    # Machines
-    db.machines.create_index(
-        "name",
-    )
+        # Machines
+        db.machines.create_index(
+            "name",
+        )
 
-    db.machines.create_index(
-        "manufacturer",
-    )
+        db.machines.create_index(
+            "manufacturer",
+        )
 
-    db.machines.create_index(
-        "model",
-    )
+        db.machines.create_index(
+            "model",
+        )
 
-    # Issues
-    db.issues.create_index(
-        "worker_reported_id",
-    )
+        # Issues
+        db.issues.create_index(
+            "worker_reported_id",
+        )
 
-    db.issues.create_index(
-        "machine_id",
-    )
+        db.issues.create_index(
+            "machine_id",
+        )
 
-    db.issues.create_index(
-        "technician_id",
-    )
+        db.issues.create_index(
+            "technician_id",
+        )
 
-    db.issues.create_index(
-        "status",
-    )
+        db.issues.create_index(
+            "status",
+        )
 
-    db.issues.create_index(
-        "created_at",
-    )
+        db.issues.create_index(
+            "created_at",
+        )
+    except PyMongoError as exc:
+        logger.warning(
+            "MongoDB is unreachable; startup completed without database indexes: %s",
+            exc,
+        )
